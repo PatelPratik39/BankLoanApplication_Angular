@@ -1,10 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
-import { FormControl, FormGroup, FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule],
+  imports: [FormsModule, ReactiveFormsModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
@@ -25,10 +25,11 @@ export class LoginComponent {
   }
 
   // Reactive Form
-  loginForm: FormGroup = new FormGroup({
-    userName: new FormControl(''),
-    password: new FormControl('')
-  });
+loginForm: FormGroup = new FormGroup({
+  userName: new FormControl(""),
+  password: new FormControl("")
+});
+
 
   // login Object
   loginObj: any = {
@@ -43,11 +44,29 @@ export class LoginComponent {
 
   onRegister(){
     debugger;
-    console.log(this.customerObject);
+    // console.log(this.customerObject);
     this.http.post("https://projectapi.gerasim.in/api/BankLoan/RegisterCustomer", this.customerObject).subscribe((res:any) => {
       debugger;
       if (res.result) {
         alert("Customer Register Successfully");
+      }else{
+        alert(res.message)
+      }
+    }, error =>{
+      debugger;
+      alert("Customer Registration Failed");
+      
+    })
+  }
+
+  onLogin(){
+    const formValue = this.loginForm.value;
+    debugger;
+    this.http.post("https://projectapi.gerasim.in/api/BankLoan/login", formValue).subscribe((res:any) => {
+      debugger;
+      if (res.result) {
+        sessionStorage.setItem("bankUser", JSON.stringify(res.data));
+        alert("User Login Successfully");
       }else{
         alert(res.message)
       }
