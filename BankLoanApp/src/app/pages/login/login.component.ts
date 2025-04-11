@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent {
   
   showRegisterForm = signal<boolean>(false);
   http = inject(HttpClient);
-
+  router = inject(Router);
 
 
   // create an object
@@ -61,12 +62,13 @@ loginForm: FormGroup = new FormGroup({
 
   onLogin(){
     const formValue = this.loginForm.value;
-    debugger;
+    // debugger;
     this.http.post("https://projectapi.gerasim.in/api/BankLoan/login", formValue).subscribe((res:any) => {
-      debugger;
+      // debugger;
       if (res.result) {
         sessionStorage.setItem("bankUser", JSON.stringify(res.data));
-        alert("User Login Successfully");
+        this.router.navigateByUrl("applicationList");
+        // alert("User Login Successfully");
       }else{
         alert(res.message)
       }
@@ -76,5 +78,6 @@ loginForm: FormGroup = new FormGroup({
       
     })
   }
+  
 
 }
