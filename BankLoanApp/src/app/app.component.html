@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <div class="container-fluid">
-    <a class="navbar-brand" href="javascript:void(0)">Logo</a>
+    <a class="navbar-brand" href="javascript:void(0)">BankApp</a>
     <button
       class="navbar-toggler"
       type="button"
@@ -27,8 +27,8 @@
       @if(loggedUserData){
       <form class="d-flex">
         <span class="text-white">{{loggedUserData.userName}}</span>
-        <button class="btn btn-warning" type="button" routerLink="login">
-          Logout
+        <button class="btn btn-warning" type="button" routerLink="login" (click)="onLogoff()">
+          Logoff
         </button>
       </form>
       } @else {
